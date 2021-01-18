@@ -1,0 +1,312 @@
+<div class="ui-fluid">
+    <div class="p-grid">
+        <div class="p-col-12">
+            <a routerLink="/certification" routerLinkActive="active"><i class="pi pi-home" id="view_certificate_inactive"></i></a>
+        </div>
+        <div class="p-col-12">
+            <div class="card card-w-title" *ngFor="let item of data_course">
+                <h1 style="text-align: center;">Senescyt - Informe final de curso B2</h1>
+                <br>
+                <div class="p-grid">
+
+                    <div class="p-col-12 p-md-6">
+                        LOGO DEL ITS
+                    </div>
+                    <div class="p-col-12 p-md-6" style="text-align: right">
+                        <b>CÓDIGO DEL CURSO:</b> {{item.code}}
+                    </div>
+                    <div class="p-col-12 p-md-12" style="text-align: center;">
+                        <h1>INSTITUTO TECNOLÓGICO SUPERIOR "{{item.name_institute}}"</h1>
+                    </div>
+                    <div class="p-col-12 p-md-12" style="text-align: center;">
+                        <h1><b>INFORME FINAL DEL CURSO</b></h1>
+                    </div>
+                    <div class="p-col-12 p-md-6">
+                        <b>Nombre del Docente:</b>
+                        {{item.instructor_name}} {{item.instructor_lastname}}
+                    </div>
+                    <div class="p-col-12 p-md-6">
+                    </div>
+                    <div class="p-col-12 p-md-6">
+                        <b>Nombre del Curso:</b>
+                        {{item.name}}
+                    </div>
+                    <div class="p-col-12 p-md-6">
+                    </div>
+                    <div class="p-col-12 p-md-2">
+                        <b>Tipo de curso: </b>
+                    </div>
+                    <div class="p-col-12 p-md-2">
+                        <p-checkbox name="administration" id="showLinkedRisksOnlyChkBx" label="Administrativo"
+                        binary="true" [(ngModel)]="administration"></p-checkbox>
+                    </div>
+                    <div class="p-col-12 p-md-2">
+                        <p-checkbox name="technical" id="showLinkedRisksOnlyChkBx" label="Técnico"
+                        binary="true" [(ngModel)]="technical"></p-checkbox>
+                    </div>
+                    <div class="p-col-12 p-md-6">
+                    </div>
+                    <div class="p-col-12 p-md-2">
+                        <b>Modalidad del curso:</b>
+                    </div>
+                    <div class="p-col-12 p-md-2">
+                        <p-checkbox name="presencial" id="showLinkedRisksOnlyChkBx" label="Presencial"
+                        binary="true" [(ngModel)]="presencial">
+                        </p-checkbox>
+                    </div>
+                    <div class="p-col-12 p-md-2">
+                        <p-checkbox name="virtual" id="showLinkedRisksOnlyChkBx" label="Virtual"
+                        binary="true" [(ngModel)]="virtual"></p-checkbox>
+                    </div>
+                    <div class="p-col-12 p-md-6">
+                    </div>
+                    <div class="p-col-12 p-md-6">
+                        <b>Contenido del Curso: (Temas generales)</b>
+                        <p>
+                        </p>
+                        <p *ngFor="let topic of data_topics; let i = index">{{i+1}}.- {{topic.description}}
+                        </p>
+                    </div>
+                    <div class="p-col-12 p-md-6">
+                    </div>
+                    <div class="p-col-12 p-md-3">
+                        <b>Duración del curso:</b>
+                    </div>
+
+                    <div class="p-col-12 p-md-1">
+                        <input id="input" type="text" pInputText value=" {{item.duration}}" readonly />
+                    </div>
+                    <div class="p-col-12 p-md-1">
+                        <b>Horas</b>
+                    </div>
+
+                    <div class="p-col-12 p-md-6">
+                    </div>
+                    <div class="p-col-12 p-md-6">
+                        <b>Lugar donde se dicta:</b> {{item.place}}
+                        <b>Cantón:</b> {{item.canton}}
+                        <p></p>
+                    </div>
+                    
+                    <div class="p-col-12 p-md-6">
+                    </div>
+                    <div class="p-col-12 p-md-2">
+                        <b>Horario del Curso:</b>
+                    </div>
+                    <div class="p-col-12 p-md-1">
+                        <input id="input" type="text" pInputText value="{{item.start_hour}}" readonly />
+                    </div>
+                    <div class="p-col-12 p-md-1" style="text-align: center;">
+                        a
+                    </div>
+                    <div class="p-col-12 p-md-1">
+                        <input id="input" type="text" pInputText value="{{item.end_hour}}" readonly />
+                    </div>
+                    <div class="p-col-12 p-md-1">
+                    </div>
+                    <div class="p-col-12 p-md-1">
+                        <b>Días:</b>
+                    </div>
+                    <div class="p-col-12 p-md-1">
+                        <p-checkbox name="days_normal" id="showLinkedRisksOnlyChkBx" label="Lunes-Viernes"
+                        binary="true" [(ngModel)]="days_normal">
+                        </p-checkbox>
+                    </div>
+                    <div class="p-col-12 p-md-1">
+                        <p-checkbox name="day_saturday" id="showLinkedRisksOnlyChkBx" label="Sábados"
+                        binary="true" [(ngModel)]="day_sabado">
+                        </p-checkbox>
+                    </div>
+                    <div class="p-col-12 p-md-1">
+                        <p-checkbox name="days_complete" id="showLinkedRisksOnlyChkBx" label="Lunes-Domin."
+                        binary="true" [(ngModel)]="days_complete">
+                        </p-checkbox>
+                    </div>
+                    <div class="p-col-12 p-md-1">
+                        <p-checkbox name="day_sunday" id="showLinkedRisksOnlyChkBx" label="Domingos."
+                        binary="true" [(ngModel)]="day_sunday">
+                        </p-checkbox>
+                    </div>
+                    <div class="p-col-12 p-md-2">
+                        <b>Fecha de Iniciación:</b>
+                    </div>
+                    <div class="p-col-12 p-md-2">
+                        <input id="input" type="date" pInputText value="{{item.date_start}}" readonly />
+                    </div>
+                    <div class="p-col-12 p-md-1">
+                    </div>
+                    <div class="p-col-12 p-md-2">
+                        <b>Fecha real de finalización:</b>
+                    </div>
+                    <div class="p-col-12 p-md-2">
+                        <input id="input" type="date" pInputText value="{{item.date_end}}" readonly />
+                    </div>
+                    <div class="p-col-12 p-md-3">
+                    </div>
+                    <div class="p-col-12 p-md-2">
+                        <b>Fecha prevista de finalización:</b>
+                    </div>
+                    <div class="p-col-12 p-md-2">
+                        <input id="input" type="date" pInputText value="{{item.planned_end_date}}" readonly />
+                    </div>
+                    <div class="p-col-12 p-md-8">
+                    </div>
+                    <div class="p-col-12 p-md-2">
+                        <b>Participantes inscritos: </b>
+                    </div>
+                    <div class="p-col-12 p-md-1">
+                        <input id="input" type="text" pInputText value="{{participants_enrollment}}" readonly />
+                    </div>
+                    <div class="p-col-12 p-md-2">
+                        <b>Participantes retirados: </b>
+                    </div>
+                    <div class="p-col-12 p-md-1">
+                        <input id="input" type="text" pInputText value="{{participants_retired}}" readonly />
+                    </div>
+                    <div class="p-col-12 p-md-6">
+                    </div>
+                    <div class="p-col-12 p-md-2">
+                        <b>Participantes reprobados:</b>
+                    </div>
+                    <div class="p-col-12 p-md-1">
+                        <input id="input" type="text" pInputText value="{{participants_reprobate}}" readonly />
+                    </div>
+                    <div class="p-col-12 p-md-2">
+                        <b>Participantes aprobados:</b>
+                    </div>
+                    <div class="p-col-12 p-md-1">
+                        <input id="input" type="text" pInputText value="{{participants_approved}}" readonly />
+                    </div>
+                    <div class="p-col-12 p-md-6">
+                    </div>
+                    <div class="p-col-12 p-md-12">
+                        <h4><b>OBSERVACIONES:</b></h4>
+                    </div>
+                    <div class="p-col-12">
+                        <div class="card card-w-title">
+                            <p-table [columns]="cols" [value]="cars" selectionMode="single" dataKey="vin"
+                                [style]="{'margin-bottom':'20px'}" [(selection)]="selectedCar3" [responsive]="true">
+                                <ng-template pTemplate="caption">
+                                    INFORME ESTADÍSTICO
+                                </ng-template>
+                                <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                        <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                                            {{col.header}}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            INSCRITOS:
+                                        </th>
+                                        <th>
+                                            {{participants_enrollment_male}}
+                                        </th>
+                                        <th>
+                                            {{participants_enrollment_female}}
+                                        </th>
+                                        <th>
+                                            {{participants_enrollment}}
+                                        </th>
+                                        <th>
+                                            -
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            RETIRADOS:
+                                        </th>
+                                        <th>
+                                            {{participants_retired_male}}
+                                        </th>
+                                        <th>
+                                            {{participants_retired_female}}
+                                        </th>
+                                        <th>
+                                            {{participants_retired}}
+                                        </th>
+                                        <th>
+                                            -
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            REPROBADOS:
+                                        </th>
+                                        <th>
+                                            {{participants_reprobate_male}}
+                                        </th>
+                                        <th>
+                                            {{participants_reprobate_female}}
+                                        </th>
+                                        <th>
+                                            {{participants_reprobate}}
+                                        </th>
+                                        <th>
+                                            -
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            APROBADOS:
+                                        </th>
+                                        <th>
+                                            {{participants_approved_male}}
+                                        </th>
+                                        <th>
+                                            {{participants_approved_female}}
+                                        </th>
+                                        <th>
+                                            {{participants_approved}}
+                                        </th>
+                                        <th>
+                                            -
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                    <tr [pSelectableRow]="rowData">
+                                        <td *ngFor="let col of columns">
+                                            <span class="ui-column-title">{{col.header}}</span>
+                                            {{rowData[col.field]}}
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                    <div class="p-col-12 p-md-6" style="text-align: center;">
+                        <p>___________________________________</p>
+                        <b>DOCENTE:</b>
+                    </div>
+                    <div class="p-col-12 p-md-6" style="text-align: center;">
+                        <p>___________________________________</p>
+                        <b>FECHA:</b>
+                    </div>
+                    <div class="p-col-12 p-md-12" style="text-align: center; border: 1px solid black;">
+                        <b>Nota: </b>Para uso exclusivo del docente, en archivo digital se copian únicamente las firmas
+                        de responsabilidad del docente en el documento.
+                    </div>
+
+                </div>
+                <br>
+                <div class="p-col-12">
+                    <div class="card card-w-title">
+                        <div class="p-grid">
+
+                            <div class="p-col-12 p-md-4">
+                            </div>
+                            <div class="p-col-12 p-md-4">
+                                <button type="button" pButton label="Generar formulario C1" icon="pi pi-upload"
+                                    (click)="generateC1()"></button>
+                            </div>
+                            <div class="p-col-12 p-md-4">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

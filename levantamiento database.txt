@@ -1,0 +1,155 @@
+
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+
+drop schema if exists public cascade;
+            drop schema if exists authentication cascade;
+            drop schema if exists attendance cascade;
+            drop schema if exists ignug cascade;
+            drop schema if exists job_board cascade;
+            drop schema if exists web cascade;
+            drop schema if exists teacher_eval cascade;
+            drop schema if exists cecy cascade;
+
+
+--
+-- TOC entry 9 (class 2615 OID 41645)
+-- Name: attendance; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA attendance;
+
+
+ALTER SCHEMA attendance OWNER TO postgres;
+
+--
+-- TOC entry 8 (class 2615 OID 41644)
+-- Name: authentication; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA authentication;
+
+
+ALTER SCHEMA authentication OWNER TO postgres;
+
+--
+-- TOC entry 13 (class 2615 OID 41649)
+-- Name: cecy; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA cecy;
+
+
+ALTER SCHEMA cecy OWNER TO postgres;
+
+--
+-- TOC entry 10 (class 2615 OID 41646)
+-- Name: ignug; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA ignug;
+
+
+ALTER SCHEMA ignug OWNER TO postgres;
+
+--
+-- TOC entry 11 (class 2615 OID 41647)
+-- Name: job_board; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA job_board;
+
+
+ALTER SCHEMA job_board OWNER TO postgres;
+
+--
+-- TOC entry 12 (class 2615 OID 41648)
+-- Name: web; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA web;
+
+
+ALTER SCHEMA web OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+
+
+
+-----------------------------
+ENV
+---------------------------------
+
+APP_NAME=IGNUG
+APP_ENV=local
+APP_KEY=base64:RcA7hel2rAY8VDCjYhmtqUgV83vJfAkz3eF5qlR1rXE=
+APP_DEBUG=true
+APP_URL=http://localhost
+CLIENT_URL=http://localhost:4200
+
+LOG_CHANNEL=stack
+
+DB_CONNECTION=pgsql-authentication
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=ignug
+DB_USERNAME=postgres
+DB_PASSWORD=tad
+DB_SCHEMA_AUTHENTICATION=authentication
+DB_SCHEMA_IGNUG=ignug
+DB_SCHEMA_JOB_BOARD=job_board
+DB_SCHEMA_WEB=web
+DB_SCHEMA_ATTENDANCE=attendance
+DB_SCHEMA_TEACHER_EVAL=teacher_eval
+DB_SCHEMA_CECY=cecy
+DB_SCHEMA_COMMUNITY=community
+
+BROADCAST_DRIVER=log
+CACHE_DRIVER=file
+QUEUE_CONNECTION=sync
+SESSION_DRIVER=file
+SESSION_LIFETIME=120
+
+REDIS_HOST=127.0.0.1
+REDIS_PASSWORD=null
+REDIS_PORT=6379
+
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=null
+MAIL_FROM_NAME="${APP_NAME}"
+
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_DEFAULT_REGION=us-east-1
+AWS_BUCKET=
+
+PUSHER_APP_ID=
+PUSHER_APP_KEY=
+PUSHER_APP_SECRET=
+PUSHER_APP_CLUSTER=mt1
+
+MIX_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
+MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
+
+
+
+
+

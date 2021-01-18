@@ -1,0 +1,331 @@
+<!--inicio modal procesar petición-->
+<div class="process-modal" id="process-modal-fade">
+    <div class="process-modal-content">
+        <img src="assets/layout/images/logo-spinner.png" />
+        <p style="color: white;">Cargando...</p>
+    </div>
+</div>
+<!--fin modal procesar petición-->
+
+<div class="ui-fluid">
+    <div class="p-grid">
+        <div class="p-col-12">
+            <a routerLink="/certification" routerLinkActive="active"><i class="pi pi-home" id="view_certificate_inactive"></i></a>
+            
+        </div>
+
+        <div class="p-col-12">
+            <div class="card card-w-title">
+                <h1 style="text-align: center;">SETEC - Generación de certificados para participantes</h1>
+                <div>
+
+                    <div class="p-col-12">
+                        <div class="card card-w-title">
+                            <h1>Carga de Archivos</h1>
+                            <p-tabView>
+                                <p-tabPanel header="Cargar Códigos" leftIcon="pi pi-upload">
+                                    <div ng-app="app">
+                                        <div ng-controller="UploadController as vm">
+                                            <div class="container">
+
+                                                <div class="alert alert-info">
+                                                    <p style="font-size: 15px;">Carga aquí el formulario excel con los
+                                                        códigos.
+                                                    </p>
+                                                    Recuerde que solamente debe subir archivo de formato .xlsx, .xls,
+                                                    .csv !
+                                                </div>
+                                                <p-fileUpload [files]="externalFiles" #uploader [multiple]="true"
+                                                    accept=".xlsx, .xls, .csv" maxFileSize="100000000"
+                                                    [showUploadButton]="false" [showCancelButton]="true"
+                                                    (onSelect)="onSelectImage($event.files)"
+                                                    (onRemove)="onRemoveImage($event)">
+                                                </p-fileUpload>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </p-tabPanel>
+                                <p-tabPanel header="Subir Certificados" leftIcon="pi pi-upload">
+                                    <div ng-app="app">
+                                        <div ng-controller="UploadController as vm">
+                                            <div class="container">
+
+                                                <div class="alert alert-info">
+                                                    <p style="font-size: 15px;">Carga aquí los certificados enviados por
+                                                        SETEC
+                                                    </p>
+                                                    Recuerde que solamente debe subir archivo de formato .pdf !
+                                                </div>
+                                                <p-fileUpload [files]="externalFiles" #uploader [multiple]="true"
+                                                    accept=".pdf" maxFileSize="100000000" [showUploadButton]="false"
+                                                    [showCancelButton]="true" (onSelect)="onSelectPdf($event.files)"
+                                                    (onRemove)="onRemoveImage($event)">
+                                                </p-fileUpload>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </p-tabPanel>
+                            </p-tabView>
+                        </div>
+                    </div>
+
+
+                    <div class="p-col-12">
+                        <div class="card card-w-title">
+                            <br>
+                            <div class="p-grid">
+                                <p-toast key="tst" [style]="{marginTop: '70px'}"></p-toast>
+                                <div class="p-col-12 p-md-10">
+                                </div>
+                                <div class="p-col-12 p-md-2" *ngIf="validate_pdf_participants != false" >
+                                    <button type="button" pButton label="Subir Certificados"
+                                        icon="pi pi-angle-double-right" class="ui-button-success"
+                                        (click)="sendFile()"></button>
+                                </div>
+                            </div>
+                            <div class="p-grid">
+                                <p-toast key="tst" [style]="{marginTop: '70px'}"></p-toast>
+
+                                <div class="p-col-12 p-md-4" *ngIf="status_download_file != 'active'">
+                                    <button type="button" pButton label="Preparar Formularios Base de Datos Sellado"
+                                        icon="pi pi-download" (click)="validateExcel()"></button>
+                                </div>
+                                <div class="p-col-12 p-md-4" *ngIf="status_download_file == 'active'">
+                                    <button type="button" class="ui-button-success" pButton
+                                        label="Descargar Formulario Base de Datos Sellado" icon="pi pi-download"
+                                        (click)="exportexcel()"></button>
+                                </div>
+                                <div class="p-col-12 p-md-6">
+                                </div>
+                                <div class="p-col-12 p-md-2">
+                                    <button type="button" pButton label="Descargar nomina - cargar codigos"
+                                        icon="pi pi-angle-double-right" (click)="ExportExcelNomina()"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="col-xs-6 text-left">
+                    <div class="previous">
+                        <button type="button" class="btn btn-default btn-lg" (click)="Esquemas()">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 text-right">
+                    <div class="next">
+                        <button type="button" class="btn btn-default btn-lg" (click)="Esquemas()">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                        </button>
+                    </div>
+                </div>
+
+
+                <div style="text-align: center;">
+                    <h3 *ngIf="current_form_national == 'active'">BASE NACIONALES</h3>
+                    <h3 *ngIf="current_form_foreign == 'active'">BASE EXTRANJEROS</h3>
+                </div>
+
+
+
+                <div class="container">
+                    <div class="base-national" id="base-national">
+                        <div *ngIf="current_form_national == 'active'">
+                            <div class="row">
+                                <div class="col-xs-6 col-md-4" *ngFor="let item of detail_course">
+                                    <table class="table" style="margin: 30px">
+                                        <tbody>
+                                            <tr>
+                                                <td><b>RUC OC:</b></td>
+                                                <td> {{item.ruc}} </td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>NOMBRE OC:</b></td>
+                                                <td> {{item.institute}} </td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Nombre representante legal:</b> </td>
+                                                <td>{{item.name_authority}}
+                                                    {{item.lastname_authority}} </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-xs-6 col-md-4"></div>
+                                <div class="col-xs-6 col-md-4">
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">No.</th>
+                                            <th scope="col">No. Cédula participante</th>
+                                            <th scope="col">Modalidad de capacitación</th>
+                                            <th scope="col">Tiene trabajo - participante</th>
+                                            <th scope="col">Nombre del Curso de capacitación </th>
+                                            <th scope="col">Enfoque de Capacitación </th>
+                                            <th scope="col">Persona que subscribe el certificado </th>
+                                            <th scope="col">Número de cédula de la persona que que subscribe el
+                                                certificado
+                                            </th>
+                                            <th scope="col">Horas de curso de capacitación</th>
+                                            <th scope="col">Fecha inicio de curso</th>
+                                            <th scope="col">Fecha fin de curso</th>
+                                            <th scope="col">Provincia de ejecución del curso</th>
+                                            <th scope="col">Ciudad de ejecución del curso</th>
+                                            <th scope="col">Discapacidad participante</th>
+                                            <th scope="col">Tipo de discapacidad participante</th>
+                                            <th scope="col">Registro Senescyt No.</th>
+                                            <th scope="col">Código certificado</th>
+                                            <th scope="col">Certificado</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let participant of national_base; let i = index">
+                                            <th scope="row">{{i+1}}</th>
+                                            <td>{{participant.identification}}</td>
+                                            <td>{{participant.modality}}</td>
+                                            <td>{{participant.participant_works}}</td>
+                                            <td>{{participant.name_course}}</td>
+                                            <td>{{participant.enfoque}}</td>
+                                            <td>{{participant.name_subscribe_certificate}}
+                                                {{participant.lastname_subscribe_certificate}}</td>
+                                            <td>{{participant.identification_subscribe_certificate}}</td>
+                                            <td>{{participant.duration_course}}</td>
+                                            <td>{{participant.start_date_course}}</td>
+                                            <td>{{participant.end_date_course}}</td>
+                                            <td>{{participant.province_course}}</td>
+                                            <td>{{participant.canton_course}}</td>
+                                            <td>N/O</td>
+                                            <td>N/O</td>
+                                            <td></td>
+                                            <td>{{participant.code_certificate}}</td>
+                                            <td *ngIf="participant.location_certificate != 'null'">
+                                                <div style="text-align: center;">
+                                                    <a href="{{participant.location_certificate}}" target="_blank"><i
+                                                            class="pi pi-eye" id="view_certificate_active"></i></a>
+                                                </div>
+                                            </td>
+                                            <td *ngIf="participant.location_certificate == 'null'">
+                                                <div style="text-align: center;">
+                                                    <i class="pi pi-eye" id="view_certificate_inactive"></i>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="base-foreign" id="base-foreign">
+                        <div *ngIf="current_form_foreign == 'active'">
+                            <div class="row">
+                                <div class="col-xs-6 col-md-4" *ngFor="let item of detail_course">
+                                    <table class="table" style="margin: 30px">
+                                        <tbody>
+                                            <tr>
+                                                <td><b>RUC OC:</b></td>
+                                                <td> {{item.ruc}} </td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>NOMBRE OC:</b></td>
+                                                <td> {{item.institute}} </td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Nombre representante legal:</b> </td>
+                                                <td>{{item.name_authority}}
+                                                    {{item.lastname_authority}} </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-xs-6 col-md-4"></div>
+                                <div class="col-xs-6 col-md-4">
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">No.</th>
+                                            <th scope="col">No. Cédula participante</th>
+                                            <th scope="col">Apellidos</th>
+                                            <th scope="col">Nombres</th>
+                                            <th scope="col">Tiene trabajo - participante</th>
+                                            <th scope="col">Nombre del Curso de capacitación </th>
+                                            <th scope="col">Enfoque de Capacitación </th>
+                                            <th scope="col">Persona que subscribe el certificado </th>
+                                            <th scope="col">Número de cédula de la persona que que subscribe el
+                                                certificado
+                                            </th>
+                                            <th scope="col">Horas de curso de capacitación</th>
+                                            <th scope="col">Fecha inicio de curso</th>
+                                            <th scope="col">Fecha fin de curso</th>
+                                            <th scope="col">Provincia de ejecución del curso</th>
+                                            <th scope="col">Ciudad de ejecución del curso</th>
+                                            <th scope="col">Fecha nacimiento participante</th>
+                                            <th scope="col">Género</th>
+                                            <th scope="col">Discapacidad participante</th>
+                                            <th scope="col">Tipo de discapacidad participante</th>
+                                            <th scope="col">Modalidad de capacitación</th>
+                                            <th scope="col">Código certificado</th>
+                                            <th scope="col">Certificado</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let participant of foreign_base; let i = index">
+                                            <th scope="row">{{i+1}}</th>
+                                            <td>{{participant.identification}}</td>
+                                            <td>{{participant.first_lastname}}</td>
+                                            <td>{{participant.first_name}}</td>
+                                            <td>{{participant.participant_works}}</td>
+                                            <td>{{participant.name_course}}</td>
+                                            <td>{{participant.enfoque}}</td>
+                                            <td>{{participant.name_subscribe_certificate}}
+                                                {{participant.lastname_subscribe_certificate}}</td>
+                                            <td>{{participant.identification_subscribe_certificate}}</td>
+                                            <td>{{participant.duration_course}}</td>
+                                            <td>{{participant.start_date_course}}</td>
+                                            <td>{{participant.end_date_course}}</td>
+                                            <td>{{participant.province_course}}</td>
+                                            <td>{{participant.canton_course}}</td>
+                                            <td>{{participant.birthdate}}</td>
+                                            <td>{{participant.gender}}</td>
+                                            <td>N/O</td>
+                                            <td>N/O</td>
+                                            <td>{{participant.modality}}</td>
+                                            <td>{{participant.code_certificate}}</td>
+                                            <td *ngIf="participant.location_certificate != 'null'">
+                                                <div style="text-align: center;">
+                                                    <a href="{{participant.location_certificate}}" target="_blank"><i
+                                                            class="pi pi-eye" id="view_certificate_active"></i></a>
+                                                </div>
+                                            </td>
+                                            <td *ngIf="participant.location_certificate == 'null'">
+                                                <div style="text-align: center;">
+                                                    <i class="pi pi-eye" id="view_certificate_inactive"></i>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+</div>

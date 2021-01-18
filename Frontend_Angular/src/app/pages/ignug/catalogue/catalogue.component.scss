@@ -1,0 +1,17 @@
+.mydialog {
+  width: 50vw;
+}
+
+.greenText a {
+  color: green;
+}
+
+.ui-tabview-selected {
+  background-color: red !important;
+}
+
+@media screen and (max-width: 40em) {
+  .mydialog {
+    width: 75vw;
+  }
+}

@@ -1,0 +1,16 @@
+#view_certificate_inactive{
+    border: 0px solid black;
+    padding: 5px;
+    border-radius: 20%;
+    color: white;
+    background-color: rgb(124, 124, 124);
+  }
+  
+  #view_certificate_active{
+    border: 0px solid black;
+    padding: 5px;
+    border-radius: 20%;
+    color: white;
+    background-color: rgb(120, 223, 79);
+  }
+    

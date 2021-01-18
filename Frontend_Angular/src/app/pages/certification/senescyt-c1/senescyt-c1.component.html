@@ -1,0 +1,181 @@
+<!--inicio modal procesar petición-->
+<div class="process-modal" id="process-modal-fade">
+    <div class="process-modal-content">
+        <img src="assets/layout/images/logo-spinner.png" />
+        <p style="color: white;">Cargando...</p>
+    </div>
+</div>
+<!--fin modal procesar petición-->
+
+
+<div class="ui-fluid">
+    <div class="p-grid">
+        <div class="p-col-12">
+            <a routerLink="/certification" routerLinkActive="active"><i class="pi pi-home" id="view_certificate_inactive"></i></a>
+        </div>
+
+        <div class="p-col-12">
+            <div class="card card-w-title">
+                <h1 style="text-align: center;">Senescyt - Formulario C1</h1>
+                <div>
+
+
+
+                    <div ng-app="app">
+                        <div ng-controller="UploadController as vm">
+                            <div class="container">
+
+                                <div class="alert alert-info">
+                                    <p style="font-size: 15px;">Carga aquí el archivo excel con los codigos enviados por Senescyt.</p>
+                                    Recuerde que solamente debe subir archivo de formato .xlsx, .xls, .csv !
+                                </div>
+                                <p-fileUpload [files]="externalFiles" #uploader [multiple]="false"
+                                    accept=".xlsx, .xls, .csv" maxFileSize="10000000000" [showUploadButton]="false"
+                                    [showCancelButton]="true" (onSelect)="onSelectImage($event.files)"
+                                    (onRemove)="onRemoveImage()">
+                                </p-fileUpload>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="p-col-12">
+                        <div class="card card-w-title">
+                            <div class="p-grid">
+                                <p-toast key="tst" [style]="{marginTop: '70px'}"></p-toast>
+                                <div class="p-col-12 p-md-8">
+                                </div>
+                                <div class="p-col-12 p-md-2">
+                                    <button type="button" pButton label="Descargar Formulario" icon="pi pi-download"
+                                        (click)="exportexcel()"></button>
+                                </div>
+                                <div class="p-col-12 p-md-2" *ngIf="status_code">
+                                    <button type="button" pButton label="Generar certificados"
+                                        icon="pi pi-angle-double-right" class="ui-button-success"
+                                        (click)="generarCertificados()"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="container" id="excel-table">
+
+                    <div class="head_titulo">
+                        <p>DIRECCIÓN DE ACREDITACIÓN Y FORTALECIMIENTO DE LA OFERTA </p>
+                        <p>FORMULARIO DE ASIGNACIÓN DE CÓDIGOS A ESTUDIANES </p>
+                        <p>- CAPACITACIÓN CONTINUA - Formulario f1</p>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-6 col-md-4">
+                            <table class="table" style="margin: 30px">
+                                <tbody *ngFor="let item of detail_course">
+                                    <tr>
+                                        <th scope="row">NOMBRE DEL INSTITUTO</th>
+                                        <td>{{item.institute}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">NOMBRE DEL CURSO</th>
+                                        <td>{{item.name_course}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">AREA DEL CURSO</th>
+                                        <td>{{item.area}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">DOCENTE</th>
+                                        <td>{{item.instructor_name}} {{item.instructor_lastname}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">FECHA INICIO</th>
+                                        <td>{{item.date_start}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">FECHA FIN</th>
+                                        <td>{{item.date_end}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-xs-6 col-md-4"></div>
+                        <div class="col-xs-6 col-md-4">
+                            <table class="table" style="margin: 30px">
+                                <thead>
+                                    <tr>
+                                        <th scope="col"></th>
+                                        <th scope="col">Número</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Estudiantes que Aprobaron</th>
+                                        <td>{{participants_approved}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Estudiantes que Reprobaron</th>
+                                        <td>{{participants_repproved}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Total</th>
+                                        <td>{{participants_total}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">No.</th>
+                                    <th scope="col">Nombres </th>
+                                    <th scope="col">Apellidos</th>
+                                    <th scope="col">Número de Cédula </th>
+                                    <th scope="col">Autodefinición </th>
+                                    <th scope="col">Posee alguna Discapacidad </th>
+                                    <th scope="col">Género</th>
+                                    <th scope="col">Edad</th>
+                                    <th scope="col">Correo Electrónico</th>
+                                    <th scope="col">Código</th>
+                                    <th scope="col">Certificado</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let participants of participants_course; let i = index">
+                                    <th scope="row">{{i+1}}</th>
+                                    <td>{{participants.participant_name}} {{participants.participant_secondname}}</td>
+                                    <td>{{participants.participant_lastname}} {{participants.participant_secondlastname}}</td>
+                                    <td>{{participants.identification}}</td>
+                                    <td>{{participants.autodefinition}}</td>
+                                    <td>N/O</td>
+                                    <td>{{participants.gender}}</td>
+                                    <td>{{participants.birthdate}}</td>
+                                    <td>{{participants.email}}</td>
+                                    <td>{{participants.code_certificate}}</td>
+                                    <td *ngIf="participants.location_certificate != 'null'">
+                                        <div style="text-align: center;">
+                                            <a href="{{participants.location_certificate}}" target="_blank"><i class="pi pi-eye" id="view_certificate_active"></i></a>
+                                        </div>
+                                    </td>
+                                    <td *ngIf="participants.location_certificate == 'null'">
+                                        <div style="text-align: center;">
+                                            <i class="pi pi-eye" id="view_certificate_inactive"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

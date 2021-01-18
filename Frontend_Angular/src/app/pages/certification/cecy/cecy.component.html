@@ -1,0 +1,122 @@
+<!--inicio modal procesar petición-->
+<div class="process-modal" id="process-modal-fade">
+    <div class="process-modal-content">
+        <img src="assets/layout/images/logo-spinner.png" />
+        <p style="color: white;">Cargando...</p>
+    </div>
+</div>
+<!--fin modal procesar petición-->
+
+<div class="ui-fluid">
+    <div class="p-grid">
+        <div class="p-col-12">
+            <a routerLink="/certification" routerLinkActive="active"><i class="pi pi-home" id="view_certificate_inactive"></i></a>
+        </div>
+
+        <div class="p-col-12">
+            <div class="card card-w-title">
+                <h1 style="text-align: center;">CECY - Generación de certificados para instructores</h1>
+                <div>
+                    <div class="p-col-12">
+                        <div class="card card-w-title">
+                            <div class="p-grid">
+                                <p-toast key="tst" [style]="{marginTop: '70px'}"></p-toast>
+                                <div class="p-col-12 p-md-10">
+                                </div>
+                                <div class="p-col-12 p-md-2" *ngIf="code_register">
+                                    <button type="button" pButton label="Generar certificados" icon="pi pi-angle-double-right" class="ui-button-success" (click)="generarCertificados()"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="container" *ngFor="let item of all_course; let i = index">
+
+
+                    <div class="row">
+                        <div class="col-xs-6 col-md-4">
+                            <table class="table" style="margin: 30px">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">NOMBRE DEL INSTITUTO</th>
+                                        <td>{{item.institute}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">NOMBRE DEL CURSO</th>
+                                        <td>{{item.name_course}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">AREA DEL CURSO</th>
+                                        <td>{{item.area}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">FECHA INICIO</th>
+                                        <td>{{item.date_start}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">FECHA FIN</th>
+                                        <td>{{item.date_end}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-xs-6 col-md-4"></div>
+                        <div class="col-xs-6 col-md-4">
+                        </div>
+                    </div>
+
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">No.</th>
+                                    <th scope="col">Nombres </th>
+                                    <th scope="col">Apellidos</th>
+                                    <th scope="col">Número de Cédula </th>
+                                    <th scope="col">Autodefinición </th>
+                                    <th scope="col">Posee alguna Discapacidad </th>
+                                    <th scope="col">Género</th>
+                                    <th scope="col">Edad</th>
+                                    <th scope="col">Correo Electrónico</th>
+                                    <th scope="col">Código</th>
+                                    <th scope="col">Certificado</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">{{i+1}}</th>
+                                    <td>{{item.instructor_name}} {{item.instructor_secondname}}</td>
+                                    <td>{{item.instructor_lastname}} {{item.instructor_secondlastname}}</td>
+                                    <td>{{item.identification}}</td>
+                                    <td>Instructor</td>
+                                    <td>Ninguna</td>
+                                    <td>{{item.gender}}</td>
+                                    <td>{{item.birthdate}}</td>
+                                    <td>{{item.email}}</td>
+                                    <td>{{item.code_certificate}}</td>
+                                    <td *ngIf="item.location_certificate != 'null'">
+                                        <div style="text-align: center;">
+                                            <a href="{{item.location_certificate}}" target="_blank"><i class="pi pi-eye" id="view_certificate_active"></i></a>
+                                        </div>
+                                    </td>
+                                    <td *ngIf="item.location_certificate == 'null'">
+                                        <div style="text-align: center;">
+                                            <i class="pi pi-eye" id="view_certificate_inactive"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

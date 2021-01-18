@@ -1,0 +1,37 @@
+<div class="p-col-12">
+    <div class="card card-w-title">
+        <h1>DataTable</h1>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">No.</th>
+                        <th scope="col">Fecha Inicio Curso </th>
+                        <th scope="col">Fecha Fin Curso </th>
+                        <th scope="col">Nombre del curso</th>
+                        <th scope="col">Certificado</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of data_courses_participant; let i = index">
+                        <th scope="row">{{i+1}}</th>
+                        <td>{{item.date_start}}</td>
+                        <td>{{item.date_end}}</td>
+                        <td>{{item.course}}</td>
+                        <td *ngIf="item.location_certificate != 'null'">
+                            <div style="text-align: center;">
+                                <a href="{{item.location_certificate}}" target="_blank"><i class="pi pi-eye" id="view_certificate_active"></i></a>
+                            </div>
+                        </td>
+                        <td *ngIf="item.location_certificate == 'null'">
+                            <div style="text-align: center;">
+                                <i class="pi pi-eye" id="view_certificate_inactive"></i>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
