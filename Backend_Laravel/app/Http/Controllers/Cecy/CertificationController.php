@@ -612,6 +612,7 @@ class CertificationController extends Controller
 
 
         $course_aproved = Registration::select(
+            'users.id as id_user',
             'detail_registration.id as id_detail_registration',
             'detail_registration.status_id as id_state_enrollment',
             'catalogue_state_matricula.name as state_enrollment',
@@ -703,6 +704,7 @@ class CertificationController extends Controller
             'catalogue_area.name as area',
             'plan.date_start',
             'plan.date_end',
+            'users.id as id_user',
             'users.first_name as instructor_name',
             'users.second_name as instructor_secondname',
             'users.first_lastname as instructor_lastname',

@@ -61,7 +61,7 @@ export class SenescytC1Component implements OnInit {
     //Obtenemos la informacion que pasa entre componentes
     this.data_info = this.get_component_data.getOptionsCourse()
     //Guardamos el id del curso para optimizar las consultas 
-    var id_curso = this.data_info[0]['course_id'];
+    var id_curso =  localStorage.getItem('id_course');
     console.log('Este es el id del curso: ' + id_curso);
     //Obtenemos la informacion, participantes y firmas del curso
     this.service.get('senescytC1_course/' + id_curso).subscribe(resp => {

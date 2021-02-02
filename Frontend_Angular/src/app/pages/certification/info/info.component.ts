@@ -44,6 +44,20 @@ export class InfoComponent implements OnInit {
   conference: Array<any> = [];
   conferenceNgModel: any;
 
+  //Variable si se certifica a participantes o instructor
+  certidicationParticipantInstructor: Array<any> = [
+    {
+      'id': 0, 'name': "Seleccione si la certificacion es para Instructores o participantes" 
+    },
+    {
+      'id': 1, 'name': "Instructores (Proceso CECY)" 
+    },
+    {
+      'id': 2, 'name': "Participantes" 
+    }
+  ];
+  certidicationParticipantInstructorNgModel: any;
+
   //Toda la informacion del curso necesaria que se envia al siguiente componente 
   course_all: Array<any> = [];
 
@@ -53,6 +67,7 @@ export class InfoComponent implements OnInit {
 
   //Obtiene las entidades que certifican (SENESCYT, CECY O SETEC)
   ngOnInit(): void {
+    localStorage.clear();
     this.service.get('entity_certification').subscribe(resp => {
       console.log(resp)
       var entities = resp['data']['attributes'];
@@ -261,6 +276,7 @@ export class InfoComponent implements OnInit {
 
   //Enviamos la informacion del curso al siguiente componente para evitar redundancia de datos
   send_service_data() {
+    localStorage.clear();
     var data_send_service = {
       'course': this.courseNgModel.name,
       'entity': this.typeCertificationsNgModel.id,
@@ -275,15 +291,22 @@ export class InfoComponent implements OnInit {
     this.send_data_component.getOptionsCourse();
     console.log(data_send_service);
     console.log(this.send_data_component.getOptionsCourse());
+    localStorage.setItem('id_course', this.course_all[0]['id']);
+
 
     //Verificamos el tipo de entidad que certifica para redireccionar al siguiente componente
-    if (this.typeCertificationsNgModel.name == 'SETEC') {
+
+    //this.certidicationParticipantInstructorNgModel.id == 0   => ninguna de las anteriores, redirige a Setec o senescyt
+    //this.certidicationParticipantInstructorNgModel.id == 2   => participantes, redirige a Setec o senescyt
+    //this.certidicationParticipantInstructorNgModel.id == 1   => Intructores (proceso CECY), redirige a certificacion de instructores (CECY)
+    if (this.typeCertificationsNgModel.name == 'SETEC' && this.certidicationParticipantInstructorNgModel.id != 1) {
       this.route.navigate(['/setec']);
-    } else if (this.typeCertificationsNgModel.name == 'SENESCYT') {
+    } else if (this.typeCertificationsNgModel.name == 'SENESCYT' && this.certidicationParticipantInstructorNgModel.id != 1) {
       this.route.navigate(['/senescyt-B2']);
-    } else if (this.typeCertificationsNgModel.name == 'CECY') {
+    } else if (this.certidicationParticipantInstructorNgModel.id == 1) {
       this.route.navigate(['/cecy']);
     }
+    
   }
 
 }

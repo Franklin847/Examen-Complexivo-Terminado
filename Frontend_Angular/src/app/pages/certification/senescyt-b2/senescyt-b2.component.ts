@@ -78,7 +78,7 @@ export class SenescytB2Component implements OnInit {
     //Traemos la informacion que pasa entre los componentes
     this.data_info = this.get_component_data.getOptionsCourse()
     //Id_curso de la informacion entre componentes
-    var id_curso = this.data_info[0]['course_id'];
+    var id_curso =  localStorage.getItem('id_course');
     console.log('Este es el id del curso: ' + id_curso);
     //detalles del curso
     this.service.get('senescytB2_course/' + id_curso).subscribe(resp => {

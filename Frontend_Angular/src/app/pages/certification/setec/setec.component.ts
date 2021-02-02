@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MessageService } from 'primeng/api';
+import { MessageService, ConfirmationService } from 'primeng/api';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
 import { CecyService } from '../../../services/cecy/cecy.service';
@@ -11,7 +11,7 @@ import { DataComponentService } from '../../../services/cecy/data-component.serv
   selector: 'app-setec',
   templateUrl: './setec.component.html',
   styleUrls: ['./setec.component.css'],
-  providers: [MessageService]
+  providers: [MessageService, ConfirmationService]
 })
 export class SETECComponent implements OnInit {
 
@@ -19,6 +19,7 @@ export class SETECComponent implements OnInit {
     private service_message: MessageService,
     public service: CecyService,
     private get_component_data: DataComponentService,
+    private confirmationService: ConfirmationService
   ) { }
 
   //Variable para establecer que formulario mostrar si base de datos nacionales o extrangeros
@@ -52,6 +53,7 @@ export class SETECComponent implements OnInit {
   data_info: Array<any> = [];
 
   ngOnInit() {
+
     //Ocultamos el modal
     this.hideModal();
     //Vaciamos los arrays para que la infroacion no se duplique
@@ -60,9 +62,9 @@ export class SETECComponent implements OnInit {
     //Obtenemso la informacion que pasa entre los componentes
     this.data_info = this.get_component_data.getOptionsCourse()
     //Almacenamos el id del curso en una vriable
-    var course_id = this.data_info[0]['course_id'];
+    //var course_id = this.data_info[0]['course_id'];
     //cursos setec van desde el 8 al 14
-    //var course_id = 10;
+    var course_id = localStorage.getItem('id_course');
     console.log('Este es el id del curso: ' + course_id);
     //Obteneomos la infroacion del curso y los participantes
     this.service.get('setec/' + course_id).subscribe(resp => {
@@ -192,6 +194,13 @@ export class SETECComponent implements OnInit {
       console.log(data_excel);
 
 
+      //Borramos los datos del codigo anterior
+      this.participants_course.forEach(element => {
+        element['code_certificate'] == 'null';
+      });
+
+
+
       //Recorremos los participantes del curso
       this.participants_course.map(function (dato) {
         console.log(dato['identification']);
@@ -211,7 +220,7 @@ export class SETECComponent implements OnInit {
       //Verificamos que todos los participantes contengan un codigo caso contrario se lanza un error
       this.participants_course.forEach(element => {
         console.log(element['code_certificate']);
-        element['code_certificate'] !== 'null' ? this.cargarArchivo() : this.errorExcel();
+        element['code_certificate'] != 'null' ? this.cargarArchivo() : this.errorExcel(element['identification']);
       });
     }
     readFile.readAsArrayBuffer(this.fileUploaded);
@@ -312,8 +321,12 @@ export class SETECComponent implements OnInit {
     this.service_message.add({ key: 'tst', severity: 'info', summary: 'Formulario Descargado', detail: 'El formulario se ha descargado exitosamente' });
   }
   //Funcion Alerta para error en archivo erroneo de Excel
-  errorExcel() {
-    this.service_message.add({ key: 'tst', severity: 'error', summary: 'Error en el archivo', detail: 'Verifique que el archivo emitido por Senescyt contenga todos los códigos.' });
+  errorExcel(identification) {
+    console.log('error de archivp')
+    this.confirmationService.confirm({
+      message: 'Ha ocurrido un error para el participante con cedula: ' + identification + '. Verifica que el archivo contenga todos los códigos o, que sea el correcto.'
+    });
+    //this.service_message.add({ key: 'tst', severity: 'error', summary: 'Error en el archivo', detail: 'Verifique que el archivo emitido por Senescyt contenga todos los códigos.' });
   }
   //Funcion Alerta para exito en pdf guardado
   pdf_save_success() {

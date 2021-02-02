@@ -33,7 +33,7 @@ export class CECYComponent implements OnInit {
     //Guardamos la infroamcion que pasa entre los componetes
     this.data_info = this.get_component_data.getOptionsCourse()
     //Guardamos el id del curso 
-    var id_curso = this.data_info[0]['course_id'];
+    var id_curso = localStorage.getItem('id_course');
     //traemos la informacion del curso junto con el intstructoe y la infromacion de las personas que firman
     this.service.get('cecy/' + id_curso).subscribe(resp => {
       console.log(resp);

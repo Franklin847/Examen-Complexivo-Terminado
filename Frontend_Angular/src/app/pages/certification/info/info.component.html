@@ -39,6 +39,11 @@
                     <p-dropdown [options]="conference" [(ngModel)]="conferenceNgModel"
                         optionLabel="name" optionValue="id" (onChange)="post_course_all($event)"></p-dropdown>
                 </div>
+                <div class="card card-w-title">
+                    <h1>Certificacion para: </h1>
+                    <p-dropdown [options]="certidicationParticipantInstructor" [(ngModel)]="certidicationParticipantInstructorNgModel"
+                        optionLabel="name" optionValue="id"></p-dropdown>
+                </div>
                 <div class="p-col-12 p-md-12" *ngIf="course_all.length > 0" >
                     <button type="button" pButton label="Siguiente" icon="pi pi-upload"
                         (click)="send_service_data()"></button>

@@ -13,7 +13,7 @@ export class CertificateUserViewComponent implements OnInit {
   ) { }
 
   cols: any[];
-  id_user: number = 8;
+  id_user: number = 2;
   data_courses_participant: Array<any> = [];
 
   ngOnInit(): void {
