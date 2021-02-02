@@ -21,7 +21,7 @@ class CreateDetailPlanificationsTable extends Migration
             $table->date('planned_end_date')->comment('fecha fin prevista');  //fecha fin prevista
             $table->foreignId('course_id')->constrained('courses')->comment('cursos_id'); //cursos_id
             $table->foreignId('career_id')->constrained('ignug.careers')->comment(''); //Se refiere a la carrera que le corresponde al curso
-            $table->foreignId('instructor_id')->constrained('instructors')->comment('fk a la tabla de instructores'); 
+            $table->foreignId('planification_instructor_id')->constrained('planification_instructors')->comment('fk a la tabla de instructores'); 
             $table->foreignId('main_firm_id')->constrained('authorities')->comment('rector o autoridad principal'); 
             $table->foreignId('secondary_firm_id')->constrained('authorities')->comment('encargado o corrdinador del curso'); 
             $table->foreignId('state_id')->constrained('ignug.states')->comment('stado_id'); //stado_id

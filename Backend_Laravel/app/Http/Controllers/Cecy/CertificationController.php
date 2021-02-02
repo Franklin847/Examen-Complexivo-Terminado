@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cecy\Catalogue;
 use App\Models\Cecy\Course;
 use App\Models\Cecy\Instructor;
+use App\Models\Cecy\PlanificationInstructor;
 use App\Models\Cecy\Topic;
 use App\Models\Cecy\Registration;
 use App\Models\Cecy\Planification;
@@ -506,7 +507,8 @@ class CertificationController extends Controller
             'users.second_name as instructor_lastname'
         )
             ->join('cecy.planifications as planification', 'planification.course_id', '=', 'courses.id')
-            ->join('cecy.instructors as instructor', 'planification.instructor_id', '=', 'instructor.id')
+            ->join('cecy.planification_instructors as planification_instructor', 'planification.planification_instructor_id', '=', 'planification_instructor.id')
+            ->join('cecy.instructors as instructor', 'planification_instructor.instructor_id', '=', 'instructor.id')
             ->join('authentication.users  as users', 'instructor.user_id', '=', 'users.id')
             ->join('cecy.catalogues  as catalogue_modality', 'courses.modality_id', '=', 'catalogue_modality.id')
             ->join('cecy.catalogues  as catalogue_type_course', 'courses.course_type_id', '=', 'catalogue_type_course.id')
@@ -588,7 +590,8 @@ class CertificationController extends Controller
             ->join('cecy.planifications as plan', 'plan.course_id', '=', 'courses.id')
             ->join('ignug.careers as career', 'plan.career_id', '=', 'career.id')
             ->join('ignug.institutions as institution', 'institution.id', '=', 'career.institution_id')
-            ->join('cecy.instructors as instructor', 'plan.instructor_id', '=', 'instructor.id')
+            ->join('cecy.planification_instructors as planification_instructor', 'plan.planification_instructor_id', '=', 'planification_instructor.id')
+            ->join('cecy.instructors as instructor', 'planification_instructor.instructor_id', '=', 'instructor.id')
             ->join('authentication.users as users', 'instructor.user_id', '=', 'users.id')
             ->join('cecy.catalogues as site_course', 'site_course.id', '=', 'plan.site_dictate')
             ->where('courses.id', $course)
@@ -710,8 +713,8 @@ class CertificationController extends Controller
             'users.first_lastname as instructor_lastname',
             'users.second_lastname as instructor_secondlastname',
             'instructor.id as id_instructor',
-            'instructor.code_certificate',
-            'instructor.location_certificate',
+            'planification_instructor.code_certificate',
+            'planification_instructor.location_certificate',
             'catalogue_gender.name as gender',
             'users.birthdate',
             'users.email',
@@ -723,7 +726,8 @@ class CertificationController extends Controller
             ->join('cecy.planifications as plan', 'plan.course_id', '=', 'courses.id')
             ->join('ignug.careers as career', 'plan.career_id', '=', 'career.id')
             ->join('ignug.institutions as institution', 'institution.id', '=', 'career.institution_id')
-            ->join('cecy.instructors as instructor', 'plan.instructor_id', '=', 'instructor.id')
+            ->join('cecy.planification_instructors as planification_instructor', 'plan.planification_instructor_id', '=', 'planification_instructor.id')
+            ->join('cecy.instructors as instructor', 'planification_instructor.instructor_id', '=', 'instructor.id')            
             ->join('authentication.users as users', 'instructor.user_id', '=', 'users.id')
             ->join('ignug.catalogues as catalogue_gender', 'users.gender_id', '=', 'catalogue_gender.id')
             ->join('cecy.catalogues as catalogue_parallel', 'plan.parallel', '=', 'catalogue_parallel.id')
@@ -733,26 +737,27 @@ class CertificationController extends Controller
 
 
         $authorities_firm = Instructor::select(
-            'instructors.main_firm_id as id_main_firm',
+            'planification_instructor.main_firm_id as id_main_firm',
             'main_user.first_name as main_first_name',
             'main_user.second_name as main_second_name',
             'main_user.first_lastname as main_first_lastname',
             'main_user.second_lastname as main_second_lastname',
             'catalogue_main.name as main_position',
-            'instructors.secondary_firm_id as id_secondary_firm',
+            'planification_instructor.secondary_firm_id as id_secondary_firm',
             'secondary_user.first_name as second_first_name',
             'secondary_user.second_name as second_second_name',
             'secondary_user.first_lastname as second_first_lastname',
             'secondary_user.second_lastname as second_second_lastname',
             'catalogue_secondary.name as second_position',
         )
-            ->join('cecy.authorities as main_authoritie', 'main_authoritie.id', '=', 'instructors.main_firm_id')
-            ->join('cecy.authorities as secondary_authoritie', 'secondary_authoritie.id', '=', 'instructors.secondary_firm_id')
+            ->join('cecy.planification_instructors as planification_instructor', 'planification_instructor.instructor_id', '=', 'instructors.id')
+            ->join('cecy.planifications as planifications', 'planifications.planification_instructor_id', '=', 'planification_instructor.id')
+            ->join('cecy.authorities as main_authoritie', 'main_authoritie.id', '=', 'planification_instructor.main_firm_id')
+            ->join('cecy.authorities as secondary_authoritie', 'secondary_authoritie.id', '=', 'planification_instructor.secondary_firm_id')
             ->join('authentication.users as main_user', 'main_authoritie.user_id', '=', 'main_user.id')
             ->join('authentication.users as secondary_user', 'secondary_authoritie.user_id', '=', 'secondary_user.id')
             ->join('cecy.catalogues as catalogue_main', 'main_authoritie.position_id', '=', 'catalogue_main.id')
             ->join('cecy.catalogues as catalogue_secondary', 'secondary_authoritie.position_id', '=', 'catalogue_secondary.id')
-            ->join('cecy.planifications as planifications', 'planifications.instructor_id', '=', 'instructors.id')
             ->where('planifications.course_id', $course)
             ->get();
 

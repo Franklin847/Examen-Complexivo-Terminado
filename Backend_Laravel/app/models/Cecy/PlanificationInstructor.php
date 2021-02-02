@@ -20,12 +20,9 @@ class PlanificationInstructor extends Model implements Auditable
     {
         return $this->belongsTo(Instructor::class,'instructor_id');
     }
-    public function planification()
+    public function status_certiicate()
     {
-        return $this->belongsTo(Planification::class,'planification_id');
+        return $this->belongsTo(Catalogue::class,'status_certificate_id');
     }
-    public function detail()
-    {
-        return $this->belongsTo(DetailRegistration::class,'detail_registration_id');
-    }
+    
 }

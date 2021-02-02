@@ -38,6 +38,7 @@ use App\Models\Cecy\Schedule;
 use App\Models\Cecy\AcademicRecord;
 use App\Models\Cecy\SchoolPeriod;
 use App\Models\Cecy\Instructor;
+use App\Models\Cecy\PlanificationInstructor;
 use App\Models\Cecy\Participant as CecyParticipant;
 use App\Models\Cecy\DetailParticipant as CecyParticipantDetail;
 use phpDocumentor\Reflection\Types\True_;
@@ -2517,7 +2518,7 @@ class DatabaseSeeder extends Seeder
             'state_id' => 1,
         ]);
 
-        // Instructors
+        // Usuarios
         factory(User::class, 50)->create([
             'nationality' => 1
         ]);
@@ -2614,12 +2615,7 @@ class DatabaseSeeder extends Seeder
         for ($i = 2; $i <= 4; $i++) {
             factory(Instructor::class)->create([
                 'state_id' => 1,
-                'user_id' => $i,
-                'status_certificate_id' => 293,
-                'location_certificate' => 'null',
-                'code_certificate' => 'null',
-                'main_firm_id' => 1,
-                'secondary_firm_id' => $i
+                'user_id' => $i
             ]);
         }
 
@@ -3287,13 +3283,22 @@ class DatabaseSeeder extends Seeder
 
 
 
-        //planificacion
+        //planificacion y planificacion instructor
+        factory(PlanificationInstructor::class)->create([
+            'state_id' => 1,
+            'instructor_id' => 1,
+            'status_certificate_id' => 293,
+            'location_certificate' => 'null',
+            'code_certificate' => 'null',
+            'main_firm_id' => 1,
+            'secondary_firm_id' => 2
+        ]);
         factory(Planification::class)->create([
             'date_start' => '2020-08-28',
             'date_end' => '2020-10-28',
             'course_id' => 1,
             'career_id' => 1,
-            'instructor_id'  => 1,
+            'planification_instructor_id'  => 1,
             'main_firm_id' => 1,
             'secondary_firm_id' => 2,
             'state_id' => 1,
@@ -3312,13 +3317,22 @@ class DatabaseSeeder extends Seeder
             'parallel' => 265,
             'site_dictate' => 283,
 
+        ]);
+        factory(PlanificationInstructor::class)->create([
+            'state_id' => 1,
+            'instructor_id' => 2,
+            'status_certificate_id' => 293,
+            'location_certificate' => 'null',
+            'code_certificate' => 'null',
+            'main_firm_id' => 1,
+            'secondary_firm_id' => 3
         ]);
         factory(Planification::class)->create([
             'date_start' => '2020-03-28',
             'date_end' => '2020-12-28',
             'course_id' => 2,
             'career_id' => 1,
-            'instructor_id'  => 2,
+            'planification_instructor_id'  => 2,
             'main_firm_id' => 1,
             'secondary_firm_id' => 3,
             'state_id' => 1,
@@ -3338,12 +3352,21 @@ class DatabaseSeeder extends Seeder
             'site_dictate' => 283,
 
         ]);
+        factory(PlanificationInstructor::class)->create([
+            'state_id' => 1,
+            'instructor_id' => 3,
+            'status_certificate_id' => 293,
+            'location_certificate' => 'null',
+            'code_certificate' => 'null',
+            'main_firm_id' => 1,
+            'secondary_firm_id' => 4
+        ]);
         factory(Planification::class)->create([
             'date_start' => '2020-03-28',
             'date_end' => '2021-12-28',
             'course_id' => 3,
             'career_id' => 2,
-            'instructor_id'  => 3,
+            'planification_instructor_id'  => 3,
             'main_firm_id' => 1,
             'secondary_firm_id' => 4,
             'state_id' => 1,
@@ -3363,12 +3386,21 @@ class DatabaseSeeder extends Seeder
             'site_dictate' => 283,
 
         ]);
+        factory(PlanificationInstructor::class)->create([
+            'state_id' => 1,
+            'instructor_id' => 1,
+            'status_certificate_id' => 293,
+            'location_certificate' => 'null',
+            'code_certificate' => 'null',
+            'main_firm_id' => 1,
+            'secondary_firm_id' => 2
+        ]);
         factory(Planification::class)->create([
             'date_start' => '2020-12-28',
             'date_end' => '2021-08-28',
             'course_id' => 4,
             'career_id' => 2,
-            'instructor_id'  => 1,
+            'planification_instructor_id'  => 4,
             'main_firm_id' => 1,
             'secondary_firm_id' => 2,
             'state_id' => 1,
@@ -3388,12 +3420,21 @@ class DatabaseSeeder extends Seeder
             'site_dictate' => 283,
 
         ]);
+        factory(PlanificationInstructor::class)->create([
+            'state_id' => 1,
+            'instructor_id' => 2,
+            'status_certificate_id' => 293,
+            'location_certificate' => 'null',
+            'code_certificate' => 'null',
+            'main_firm_id' => 1,
+            'secondary_firm_id' => 3
+        ]);
         factory(Planification::class)->create([
             'date_start' => '2020-03-28',
             'date_end' => '2020-12-28',
             'course_id' => 5,
             'career_id' => 3,
-            'instructor_id'  => 2,
+            'planification_instructor_id'  => 5,
             'main_firm_id' => 1,
             'secondary_firm_id' => 3,
             'state_id' => 1,
@@ -3413,12 +3454,21 @@ class DatabaseSeeder extends Seeder
             'site_dictate' => 283,
 
         ]);
+        factory(PlanificationInstructor::class)->create([
+            'state_id' => 1,
+            'instructor_id' => 3,
+            'status_certificate_id' => 293,
+            'location_certificate' => 'null',
+            'code_certificate' => 'null',
+            'main_firm_id' => 1,
+            'secondary_firm_id' => 4
+        ]);
         factory(Planification::class)->create([
             'date_start' => '2021-03-28',
             'date_end' => '2022-12-28',
             'course_id' => 6,
             'career_id' => 3,
-            'instructor_id'  => 3,
+            'planification_instructor_id'  => 6,
             'main_firm_id' => 1,
             'secondary_firm_id' => 4,
             'state_id' => 1,
@@ -3438,12 +3488,21 @@ class DatabaseSeeder extends Seeder
             'site_dictate' => 283,
 
         ]);
+        factory(PlanificationInstructor::class)->create([
+            'state_id' => 1,
+            'instructor_id' => 1,
+            'status_certificate_id' => 293,
+            'location_certificate' => 'null',
+            'code_certificate' => 'null',
+            'main_firm_id' => 1,
+            'secondary_firm_id' => 2
+        ]);
         factory(Planification::class)->create([
             'date_start' => '2020-03-28',
             'date_end' => '2020-12-28',
             'course_id' => 7,
             'career_id' => 3,
-            'instructor_id'  => 1,
+            'planification_instructor_id'  => 7,
             'main_firm_id' => 1,
             'secondary_firm_id' => 2,
             'state_id' => 1,
@@ -3466,12 +3525,21 @@ class DatabaseSeeder extends Seeder
 
 
         //Planification external institutes
+        factory(PlanificationInstructor::class)->create([
+            'state_id' => 1,
+            'instructor_id' => 2,
+            'status_certificate_id' => 293,
+            'location_certificate' => 'null',
+            'code_certificate' => 'null',
+            'main_firm_id' => 1,
+            'secondary_firm_id' => 3
+        ]);
         factory(SetecPlanification::class)->create([
             'date_start' => '2021-03-28',
             'date_end' => '2023-12-28',
             'course_id' => 8,
             'institution_id' => 1,
-            'instructor_id'  => 2,
+            'planification_instructor_id'  => 8,
             'state_id' => 1,
             'summary' => 'sfdsf',
             'needs' => ['sndfk', 'afdsa'],
@@ -3487,13 +3555,22 @@ class DatabaseSeeder extends Seeder
             'parallel' => 265,
             'site_dictate' => 283,
             'autority_subscribe_certificate' => 2
+        ]);
+        factory(PlanificationInstructor::class)->create([
+            'state_id' => 1,
+            'instructor_id' => 3,
+            'status_certificate_id' => 293,
+            'location_certificate' => 'null',
+            'code_certificate' => 'null',
+            'main_firm_id' => 1,
+            'secondary_firm_id' => 4
         ]);
         factory(SetecPlanification::class)->create([
             'date_start' => '2020-03-28',
             'date_end' => '2020-12-28',
             'course_id' => 9,
             'institution_id' => 2,
-            'instructor_id'  => 3,
+            'planification_instructor_id'  => 9,
             'state_id' => 1,
             'summary' => 'sfdsf',
             'needs' => ['sndfk', 'afdsa'],
@@ -3510,13 +3587,22 @@ class DatabaseSeeder extends Seeder
             'site_dictate' => 283,
             'autority_subscribe_certificate' => 2
 
+        ]);
+        factory(PlanificationInstructor::class)->create([
+            'state_id' => 1,
+            'instructor_id' => 1,
+            'status_certificate_id' => 293,
+            'location_certificate' => 'null',
+            'code_certificate' => 'null',
+            'main_firm_id' => 1,
+            'secondary_firm_id' => 2
         ]);
         factory(SetecPlanification::class)->create([
             'date_start' => '2022-03-28',
             'date_end' => '2023-12-28',
             'course_id' => 10,
             'institution_id' => 3,
-            'instructor_id'  => 1,
+            'planification_instructor_id'  => 10,
             'state_id' => 1,
             'summary' => 'sfdsf',
             'needs' => ['sndfk', 'afdsa'],
@@ -3533,13 +3619,22 @@ class DatabaseSeeder extends Seeder
             'site_dictate' => 283,
             'autority_subscribe_certificate' => 2
 
+        ]);
+        factory(PlanificationInstructor::class)->create([
+            'state_id' => 1,
+            'instructor_id' => 2,
+            'status_certificate_id' => 293,
+            'location_certificate' => 'null',
+            'code_certificate' => 'null',
+            'main_firm_id' => 1,
+            'secondary_firm_id' => 3
         ]);
         factory(SetecPlanification::class)->create([
             'date_start' => '2021-01-28',
             'date_end' => '2021-06-28',
             'course_id' => 11,
             'institution_id' => 4,
-            'instructor_id'  => 2,
+            'planification_instructor_id'  => 11,
             'state_id' => 1,
             'summary' => 'sfdsf',
             'needs' => ['sndfk', 'afdsa'],
@@ -3556,13 +3651,22 @@ class DatabaseSeeder extends Seeder
             'site_dictate' => 283,
             'autority_subscribe_certificate' => 2
 
+        ]);
+        factory(PlanificationInstructor::class)->create([
+            'state_id' => 1,
+            'instructor_id' => 3,
+            'status_certificate_id' => 293,
+            'location_certificate' => 'null',
+            'code_certificate' => 'null',
+            'main_firm_id' => 1,
+            'secondary_firm_id' => 4
         ]);
         factory(SetecPlanification::class)->create([
             'date_start' => '2020-03-28',
             'date_end' => '2020-12-28',
             'course_id' => 12,
             'institution_id' => 1,
-            'instructor_id'  => 3,
+            'planification_instructor_id'  => 12,
             'state_id' => 1,
             'summary' => 'sfdsf',
             'needs' => ['sndfk', 'afdsa'],
@@ -3579,13 +3683,22 @@ class DatabaseSeeder extends Seeder
             'site_dictate' => 283,
             'autority_subscribe_certificate' => 2
 
+        ]);
+        factory(PlanificationInstructor::class)->create([
+            'state_id' => 1,
+            'instructor_id' => 1,
+            'status_certificate_id' => 293,
+            'location_certificate' => 'null',
+            'code_certificate' => 'null',
+            'main_firm_id' => 1,
+            'secondary_firm_id' => 2
         ]);
         factory(SetecPlanification::class)->create([
             'date_start' => '2020-03-28',
             'date_end' => '2020-12-28',
             'course_id' => 13,
             'institution_id' => 2,
-            'instructor_id'  => 1,
+            'planification_instructor_id'  => 13,
             'state_id' => 1,
             'summary' => 'sfdsf',
             'needs' => ['sndfk', 'afdsa'],
@@ -3603,12 +3716,21 @@ class DatabaseSeeder extends Seeder
             'autority_subscribe_certificate' => 2
 
         ]);
+        factory(PlanificationInstructor::class)->create([
+            'state_id' => 1,
+            'instructor_id' => 2,
+            'status_certificate_id' => 293,
+            'location_certificate' => 'null',
+            'code_certificate' => 'null',
+            'main_firm_id' => 1,
+            'secondary_firm_id' => 3
+        ]);
         factory(SetecPlanification::class)->create([
             'date_start' => '2020-03-28',
             'date_end' => '2020-12-28',
             'course_id' => 14,
             'institution_id' => 3,
-            'instructor_id'  => 2,
+            'planification_instructor_id'  => 14,
             'state_id' => 1,
             'summary' => 'sfdsf',
             'needs' => ['sndfk', 'afdsa'],

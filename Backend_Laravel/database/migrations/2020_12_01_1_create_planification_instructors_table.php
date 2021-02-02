@@ -18,8 +18,11 @@ class CreatePlanificationInstructorsTable extends Migration
             $table->id();
             $table->foreignId('state_id')->constrained('ignug.states'); //id_estado
             $table->foreignId('instructor_id')->constrained('instructors'); //id_persona_instructor
-            $table->foreignId('planification_id')->constrained('planifications'); //id_planificaion
-            $table->foreignId('detail_registration_id')->constrained('detail_registrations'); //id_detalle_matricula
+            $table->foreignId('status_certificate_id')->constrained('catalogues'); //estado del certificado
+            $table->string('location_certificate',900)->comment('ubicacion del certificado dentro del servidor');
+            $table->string('code_certificate',200)->comment('ubicacion del certificado dentro del servidor'); 
+            $table->foreignId('main_firm_id')->constrained('authorities')->comment('rector o autoridad principal'); 
+            $table->foreignId('secondary_firm_id')->constrained('authorities')->comment('encargado o corrdinador del curso'); 
             $table->timestamps();
         });
     }
