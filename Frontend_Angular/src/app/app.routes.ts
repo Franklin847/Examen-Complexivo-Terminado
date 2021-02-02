@@ -75,6 +75,7 @@ export const routes: Routes = [
             {path: 'setec', component: SETECComponent},
             {path: 'prueba', component: PruebaComponent},
             {path: 'view-certificate', component: CertificateUserViewComponent},
+            {path: 'view-certificate/:id', component: CertificateUserViewComponent},
             {path: '**', redirectTo: '/authentication/404'},
         ]
     },

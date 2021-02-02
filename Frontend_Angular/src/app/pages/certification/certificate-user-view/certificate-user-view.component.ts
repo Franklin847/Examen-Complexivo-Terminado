@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CecyService } from '../../../services/cecy/cecy.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-certificate-user-view',
@@ -10,15 +11,19 @@ export class CertificateUserViewComponent implements OnInit {
 
   constructor(
     private service: CecyService,
+    public route: ActivatedRoute
   ) { }
 
   cols: any[];
-  id_user: number = 3;
+  id_user: any = this.route.snapshot.paramMap.get('id');
   data_courses_participant: Array<any> = [];
   data_courses_instructor: Array<any> = [];
   data_courses_instructor_setec: Array<any> = [];
 
   ngOnInit(): void {
+
+    //Imprimir la variable de la url
+    console.log(this.route.snapshot.paramMap.get('id'));
 
     //Cargamos el grid de la tabla
     this.cols = [

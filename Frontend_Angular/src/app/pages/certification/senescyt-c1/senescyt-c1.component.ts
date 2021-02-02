@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MessageService } from 'primeng/api';
+import { MessageService, ConfirmationService } from 'primeng/api';
 import { Message } from 'primeng/api';
 import * as XLSX from 'xlsx';
 import { CecyService } from '../../../services/cecy/cecy.service';
@@ -10,7 +10,7 @@ import { DataComponentService } from '../../../services/cecy/data-component.serv
   selector: 'app-senescyt-c1',
   templateUrl: './senescyt-c1.component.html',
   styleUrls: ['./senescyt-c1.component.css'],
-  providers: [MessageService]
+  providers: [MessageService, ConfirmationService]
 })
 export class SenescytC1Component implements OnInit {
 
@@ -46,6 +46,7 @@ export class SenescytC1Component implements OnInit {
     private service_message: MessageService,
     private service: CecyService,
     private get_component_data: DataComponentService,
+    private confirmationService: ConfirmationService
   ) {
 
   }
@@ -157,7 +158,7 @@ export class SenescytC1Component implements OnInit {
       //Verificamos que todos los participantes tengas su codigo caso contrario se muestra un error
       this.participants_course.forEach(element => {
         console.log(element['code_certificate']);
-        element['code_certificate'] !== 'null' ? this.cargarArchivo() : this.errorExcel();
+        element['code_certificate'] !== 'null' ? this.cargarArchivo() : this.errorExcel(element['identification']);
       });
     }
     readFile.readAsArrayBuffer(this.fileUploaded);
@@ -229,7 +230,10 @@ export class SenescytC1Component implements OnInit {
     this.service_message.add({ key: 'tst', severity: 'info', summary: 'Formulario Descargado', detail: 'El formulario se ha descargado exitosamente' });
   }
   //funcion para mostrar un alerta de error si el excel no es el correcto
-  errorExcel() {
+  errorExcel(identification) {
+    this.confirmationService.confirm({
+      message: 'Ha ocurrido un error para el participante con cedula: ' + identification + '. Verifica que el archivo contenga todos los códigos o, que sea el correcto.'
+    });
     this.service_message.add({ key: 'tst', severity: 'error', summary: 'Error en el archivo', detail: 'Verifique que el archivo emitido por Senescyt contenga todos los códigos.' });
   }
 }

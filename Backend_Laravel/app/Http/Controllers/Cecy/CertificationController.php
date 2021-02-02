@@ -9,6 +9,7 @@ use App\Models\Cecy\Instructor;
 use App\Models\Cecy\PlanificationInstructor;
 use App\Models\Cecy\Topic;
 use App\Models\Cecy\Registration;
+use App\Models\Cecy\SetecRegistration;
 use App\Models\Cecy\Planification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -890,7 +891,8 @@ class CertificationController extends Controller
 
 
 
-        $course_aproved = Registration::select(
+        $course_aproved = SetecRegistration::select(
+            'users.id as id_user',
             'users.identification',
             'users.first_name',
             'users.first_lastname',
@@ -913,10 +915,10 @@ class CertificationController extends Controller
             'users_subscribe_certificate.first_lastname as lastname_subscribe_certificate',
             'users_subscribe_certificate.identification as identification_subscribe_certificate'
         )
-            ->join('cecy.participants as participants', 'registrations.participant_id', '=', 'participants.id')
-            ->join('cecy.setec_detail_registrations as detail_registrations', 'detail_registrations.registration_id', '=', 'registrations.id')
+            ->join('cecy.participants as participants', 'setec_registrations.participant_id', '=', 'participants.id')
+            ->join('cecy.setec_detail_registrations as detail_registrations', 'detail_registrations.registration_id', '=', 'setec_registrations.id')
             ->join('authentication.users as users', 'participants.user_id', '=', 'users.id')
-            ->join('cecy.setec_planifications as planification', 'planification.id', '=', 'registrations.planification_id')
+            ->join('cecy.setec_planifications as planification', 'planification.id', '=', 'setec_registrations.planification_id')
             ->join('cecy.courses as course', 'course.id', '=', 'planification.course_id')
             ->join('cecy.detail_participants as detail_participants', 'detail_participants.participant_id', '=', 'participants.id')
             ->join('cecy.authorities as authorities', 'authorities.id', '=', 'planification.autority_subscribe_certificate')
