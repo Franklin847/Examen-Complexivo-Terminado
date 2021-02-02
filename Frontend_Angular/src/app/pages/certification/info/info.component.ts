@@ -292,6 +292,8 @@ export class InfoComponent implements OnInit {
     console.log(data_send_service);
     console.log(this.send_data_component.getOptionsCourse());
     localStorage.setItem('id_course', this.course_all[0]['id']);
+    //Nos da si el curso es senescyt o cecy para instructores
+    localStorage.setItem('type_course_cecy', this.typeCertificationsNgModel.name);
 
 
     //Verificamos el tipo de entidad que certifica para redireccionar al siguiente componente

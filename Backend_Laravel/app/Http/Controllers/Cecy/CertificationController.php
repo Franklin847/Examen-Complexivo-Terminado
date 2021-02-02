@@ -697,6 +697,7 @@ class CertificationController extends Controller
     {
 
         $course_info = Course::select(
+            'planification_instructor.id as id_planification_instructor',
             'courses.id as id_course',
             'institution.name as institute',
             'institution.code as institute_code',
@@ -737,6 +738,7 @@ class CertificationController extends Controller
 
 
         $authorities_firm = Instructor::select(
+            'planification_instructor.id as id_planification_instructor',
             'planification_instructor.main_firm_id as id_main_firm',
             'main_user.first_name as main_first_name',
             'main_user.second_name as main_second_name',
@@ -752,6 +754,93 @@ class CertificationController extends Controller
         )
             ->join('cecy.planification_instructors as planification_instructor', 'planification_instructor.instructor_id', '=', 'instructors.id')
             ->join('cecy.planifications as planifications', 'planifications.planification_instructor_id', '=', 'planification_instructor.id')
+            ->join('cecy.authorities as main_authoritie', 'main_authoritie.id', '=', 'planification_instructor.main_firm_id')
+            ->join('cecy.authorities as secondary_authoritie', 'secondary_authoritie.id', '=', 'planification_instructor.secondary_firm_id')
+            ->join('authentication.users as main_user', 'main_authoritie.user_id', '=', 'main_user.id')
+            ->join('authentication.users as secondary_user', 'secondary_authoritie.user_id', '=', 'secondary_user.id')
+            ->join('cecy.catalogues as catalogue_main', 'main_authoritie.position_id', '=', 'catalogue_main.id')
+            ->join('cecy.catalogues as catalogue_secondary', 'secondary_authoritie.position_id', '=', 'catalogue_secondary.id')
+            ->where('planifications.course_id', $course)
+            ->get();
+
+
+
+        return response()->json(
+            [
+                'data' => [
+                    'course_detail' => $course_info,
+                    'authorities_firm' => $authorities_firm
+                ],
+                'msg' => [
+                    'summary' => 'success',
+                    'detail' => 'Course Cecy',
+                    'code' => '200',
+                ]
+            ],
+            200
+        );
+    }
+
+
+    public function cecy_curso_setec_index($course)
+    {
+
+        $course_info = Course::select(
+            'planification_instructor.id as id_planification_instructor',
+            'courses.id as id_course',
+            'institution.name as institute',
+            'institution.ruc as ruc_institute',
+            'catalogue_parallel.name as parallel',
+            'courses.name as name_course',
+            'courses.code as code_course',
+            'catalogue_area.name as area',
+            'plan.date_start',
+            'plan.date_end',
+            'users.id as id_user',
+            'users.first_name as instructor_name',
+            'users.second_name as instructor_secondname',
+            'users.first_lastname as instructor_lastname',
+            'users.second_lastname as instructor_secondlastname',
+            'instructor.id as id_instructor',
+            'planification_instructor.code_certificate',
+            'planification_instructor.location_certificate',
+            'catalogue_gender.name as gender',
+            'users.birthdate',
+            'users.email',
+            'users.identification'
+        )
+
+
+            ->join('cecy.catalogues as catalogue_area', 'courses.area_id', '=', 'catalogue_area.id')
+            ->join('cecy.setec_planifications as plan', 'plan.course_id', '=', 'courses.id')
+            ->join('cecy.institutions as institution', 'institution.id', '=', 'plan.institution_id')
+            ->join('cecy.planification_instructors as planification_instructor', 'plan.planification_instructor_id', '=', 'planification_instructor.id')
+            ->join('cecy.instructors as instructor', 'planification_instructor.instructor_id', '=', 'instructor.id')            
+            ->join('authentication.users as users', 'instructor.user_id', '=', 'users.id')
+            ->join('ignug.catalogues as catalogue_gender', 'users.gender_id', '=', 'catalogue_gender.id')
+            ->join('cecy.catalogues as catalogue_parallel', 'plan.parallel', '=', 'catalogue_parallel.id')
+            ->where('courses.id', $course)
+            ->get();
+
+
+
+        $authorities_firm = Instructor::select(
+            'planification_instructor.id as id_planification_instructor',
+            'planification_instructor.main_firm_id as id_main_firm',
+            'main_user.first_name as main_first_name',
+            'main_user.second_name as main_second_name',
+            'main_user.first_lastname as main_first_lastname',
+            'main_user.second_lastname as main_second_lastname',
+            'catalogue_main.name as main_position',
+            'planification_instructor.secondary_firm_id as id_secondary_firm',
+            'secondary_user.first_name as second_first_name',
+            'secondary_user.second_name as second_second_name',
+            'secondary_user.first_lastname as second_first_lastname',
+            'secondary_user.second_lastname as second_second_lastname',
+            'catalogue_secondary.name as second_position',
+        )
+            ->join('cecy.planification_instructors as planification_instructor', 'planification_instructor.instructor_id', '=', 'instructors.id')
+            ->join('cecy.setec_planifications as planifications', 'planifications.planification_instructor_id', '=', 'planification_instructor.id')
             ->join('cecy.authorities as main_authoritie', 'main_authoritie.id', '=', 'planification_instructor.main_firm_id')
             ->join('cecy.authorities as secondary_authoritie', 'secondary_authoritie.id', '=', 'planification_instructor.secondary_firm_id')
             ->join('authentication.users as main_user', 'main_authoritie.user_id', '=', 'main_user.id')
@@ -868,7 +957,7 @@ class CertificationController extends Controller
     public function participant_curso_index($id_user)
     {
 
-        $course_info = Course::select(
+        $course_participant_info = Course::select(
             'courses.id as id_course',
             'courses.name as course',
             'planifications.date_start',
@@ -888,10 +977,47 @@ class CertificationController extends Controller
             ->get();
 
 
+        $course_instructor_info = PlanificationInstructor::select(
+            'courses.id as id_course',
+            'courses.name as course',
+            'planifications.date_start',
+            'planifications.date_end',
+            'planification_instructors.code_certificate',
+            'planification_instructors.location_certificate'
+        )
+            ->join('cecy.instructors', 'instructors.id', '=', 'planification_instructors.instructor_id')
+            ->join('authentication.users', 'users.id', '=', 'instructors.user_id')
+            ->join('cecy.planifications', 'planifications.planification_instructor_id', '=', 'planification_instructors.id')
+            ->join('cecy.courses', 'planifications.course_id', '=', 'courses.id')
+            ->where('users.id', $id_user)
+            ->where('courses.state_id', 2)
+            ->get();
+        
+        $course_instructor_setec_info = PlanificationInstructor::select(
+            'courses.id as id_course',
+            'courses.name as course',
+            'setec_planifications.date_start',
+            'setec_planifications.date_end',
+            'planification_instructors.code_certificate',
+            'planification_instructors.location_certificate'
+        )
+            ->join('cecy.instructors', 'instructors.id', '=', 'planification_instructors.instructor_id')
+            ->join('authentication.users', 'users.id', '=', 'instructors.user_id')
+            ->join('cecy.setec_planifications', 'setec_planifications.planification_instructor_id', '=', 'planification_instructors.id')
+            ->join('cecy.courses', 'setec_planifications.course_id', '=', 'courses.id')
+            ->where('users.id', $id_user)
+            ->where('courses.state_id', 2)
+            ->get();
+
+       
+
+
         return response()->json(
             [
                 'data' => [
-                    'course_participant' => $course_info,
+                    'course_participant' => $course_participant_info,
+                    'course_instructor' => $course_instructor_info,
+                    'course_instructor_setec' => $course_instructor_setec_info,
                 ],
                 'msg' => [
                     'summary' => 'success',

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Date;
 use App\Models\Cecy\DetailRegistration;
-use App\Models\Cecy\Instructor;
+use App\Models\Cecy\PlanificationInstructor;
 
 class pdfController extends Controller
 {
@@ -62,7 +62,7 @@ class pdfController extends Controller
             'location_certificate' => url('/') . '/storage/pdf_reports/diplomas/' . $nombre_diploma,
             'status_certificate_id' => 291
         ];
-        Instructor::where('id', $data['id_instructor'])->update($data_update_instructor);
+        PlanificationInstructor::where('id', $data['id_planification_instructor'])->update($data_update_instructor);
 
 
         return response()->json([

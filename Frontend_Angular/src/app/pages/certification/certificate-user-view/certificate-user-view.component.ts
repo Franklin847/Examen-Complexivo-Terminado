@@ -13,8 +13,10 @@ export class CertificateUserViewComponent implements OnInit {
   ) { }
 
   cols: any[];
-  id_user: number = 2;
+  id_user: number = 3;
   data_courses_participant: Array<any> = [];
+  data_courses_instructor: Array<any> = [];
+  data_courses_instructor_setec: Array<any> = [];
 
   ngOnInit(): void {
 
@@ -29,6 +31,8 @@ export class CertificateUserViewComponent implements OnInit {
     this.service.get('user_certificate_view/'+this.id_user).subscribe(resp=>{
       console.log(resp);
       this.data_courses_participant = resp['data']['course_participant'];
+      this.data_courses_instructor = resp['data']['course_instructor'];
+      this.data_courses_instructor_setec = resp['data']['course_instructor_setec'];
     },(error)=>{
       console.log(error);
     })

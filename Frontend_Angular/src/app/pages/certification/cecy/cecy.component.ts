@@ -34,20 +34,37 @@ export class CECYComponent implements OnInit {
     this.data_info = this.get_component_data.getOptionsCourse()
     //Guardamos el id del curso 
     var id_curso = localStorage.getItem('id_course');
+    //Traemos del localstorage el tipo de curso para realizar la consulta correspondiente para instructores (Senescyt o setec)
+    var type_course_cecy = localStorage.getItem('type_course_cecy');
     //traemos la informacion del curso junto con el intstructoe y la infromacion de las personas que firman
-    this.service.get('cecy/' + id_curso).subscribe(resp => {
-      console.log(resp);
-      //Guardamos la infromacion del curso
-      this.all_course = resp['data']['course_detail'];
-      //Guardamos la informacion de las autoridades 
-      this.authorities_firm = resp['data']['authorities_firm'];
-      //Funcion para generar el codigo
-      this.GenerateCod();
-    }, (error) => {
-      //Imprimimos el error
-      console.log(error);
-    })
-
+    
+    if(type_course_cecy == 'SENESCYT'){
+      this.service.get('cecy/' + id_curso).subscribe(resp => {
+        console.log(resp);
+        //Guardamos la infromacion del curso
+        this.all_course = resp['data']['course_detail'];
+        //Guardamos la informacion de las autoridades 
+        this.authorities_firm = resp['data']['authorities_firm'];
+        //Funcion para generar el codigo
+        this.GenerateCod();
+      }, (error) => {
+        //Imprimimos el error
+        console.log(error);
+      })
+    }else if(type_course_cecy == 'SETEC'){
+      this.service.get('cecy_setec/' + id_curso).subscribe(resp => {
+        console.log(resp);
+        //Guardamos la infromacion del curso
+        this.all_course = resp['data']['course_detail'];
+        //Guardamos la informacion de las autoridades 
+        this.authorities_firm = resp['data']['authorities_firm'];
+        //Funcion para generar el codigo
+        this.GenerateCod();
+      }, (error) => {
+        //Imprimimos el error
+        console.log(error);
+      })
+    }
   }
 
   //Genermaos el codgo a partir de la irnfoamcion del curso
@@ -91,7 +108,7 @@ export class CECYComponent implements OnInit {
       'participant_secondlastname': this.all_course[0]['instructor_secondlastname'],
       'identification': this.all_course[0]['identification'],
       'code_certification': this.code_register,
-      'id_instructor': this.all_course[0]['id_instructor'],
+      'id_planification_instructor': this.all_course[0]['id_planification_instructor'],
       'code_course': this.all_course[0]['code_course']
     }
     //Traemos la informacion y mandamos a generar el diploma

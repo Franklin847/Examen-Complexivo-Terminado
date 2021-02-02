@@ -59,7 +59,8 @@ Route::get('/api/cecy/senescytB2_course/{course}', 'Cecy\CertificationController
 Route::get('/api/cecy/senescytC1_course/{course}', 'Cecy\CertificationController@senescyt_C1_curso_index')->name('senescyt_C1_curso_index');
 //Traer los instructores del curso y los detales del curso Cecy
 Route::get('/api/cecy/cecy/{course}', 'Cecy\CertificationController@cecy_curso_index')->name('cecy_curso_index');
-
+//Traer los instructores del curso y los detales del curso Cecy setec
+Route::get('/api/cecy/cecy_setec/{course}', 'Cecy\CertificationController@cecy_curso_setec_index')->name('cecy_curso_setec_index');
 
 
 //Upload file example
